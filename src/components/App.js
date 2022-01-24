@@ -8,6 +8,7 @@ import ImagePopup from './ImagePopup';
 import AddPlacePopup from './AddPlacePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
+import RequireAuth from "./RequireAuth";
 
 function App() {
 
