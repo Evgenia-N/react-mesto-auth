@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useEffect } from 'react';
+import { Routes, Route, Navigate, useNavigate, useLocation} from 'react-router-dom';
 import Api from '../utils/Api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Header from './Header';
@@ -12,8 +13,39 @@ import RequireAuth from "./RequireAuth";
 import Register from './Register';
 import Login from './Login';
 import InfoTooltip from './InfoTooltip';
+import * as auth from '../auth';
 
-function App() {
+export default function App() {
+  const [loggedIn, setLoggedin] = React.useState(false);
+  const navigate = React.useNavigate();
+  const location = React.useLocation();
+
+  useEffect(() => {
+    handleTokenCheck(location.pathname);
+  }, []);
+
+  const handleTokenCheck = (path) => {
+    if (localStorage.getItem('jwt')) {
+      const jwt = localStorage.getItem('jwt');
+      auth.checkToken(jwt).then((res) => {
+        if(res) {
+          setLoggedin(true);
+          navigate(path);
+        }
+      })
+    }
+  };
+
+  const handleLogin = () => {
+    setLoggedin(true);
+  }
+
+  const handleLogout = (evt) => {
+    evt.preventDefault();
+    localStorage.removeItem('jwt');
+    setLoggedin(false);
+    navigate('/sign-in')
+  }
 
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
