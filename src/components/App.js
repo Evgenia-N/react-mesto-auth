@@ -9,6 +9,9 @@ import AddPlacePopup from './AddPlacePopup';
 import EditAvatarPopup from './EditAvatarPopup';
 import EditProfilePopup from './EditProfilePopup';
 import RequireAuth from "./RequireAuth";
+import Register from './Register';
+import Login from './Login';
+import InfoTooltip from './InfoTooltip';
 
 function App() {
 
@@ -131,15 +134,31 @@ function App() {
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
         <Header />
-        <Main
-          onEditProfile={handleEditProfileClick}
-          onEditAvatar={handleEditAvatarClick}
-          onAddPlace={handleAddPlaceClick}
-          onCardClick={handleCardClick}
-          onCardLike={handleCardLike}
-          onCardDelete={handleCardDelete}
-          cards={cards}
-        />
+        <Routes>
+          <Route 
+            path='/' 
+            element={
+              <RequireAuth loggedIn={loggedIn}> 
+                <Main
+                  onEditProfile={handleEditProfileClick}
+                  onEditAvatar={handleEditAvatarClick}
+                  onAddPlace={handleAddPlaceClick}
+                  onCardClick={handleCardClick}
+                  onCardLike={handleCardLike}
+                  onCardDelete={handleCardDelete}
+                  cards={cards} /> 
+              </RequireAuth> 
+            }
+          />
+          <Route 
+            path='/sign-up' 
+            element={<Register/>}
+          />
+          <Route 
+            path='/sign-in' 
+            element={<Login onLogin={handleLogin}/>}
+          />
+        </Routes>
         <Footer />
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
