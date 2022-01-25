@@ -168,7 +168,7 @@ export default function App() {
         <Header />
         <Routes>
           <Route 
-            path='/' 
+            exact path='/' 
             element={
               <RequireAuth loggedIn={loggedIn}> 
                 <Main
@@ -189,6 +189,10 @@ export default function App() {
           <Route 
             path='/sign-in' 
             element={<Login onLogin={handleLogin}/>}
+          />
+          <Route 
+            path='*' 
+            element={<Navigate to='/' />}
           />
         </Routes>
         <Footer />
