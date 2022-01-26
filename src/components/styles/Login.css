@@ -27,10 +27,10 @@
   flex-direction: column;
   align-items: center;
   flex: 1;
+  font-family: 'Inter';
 }
 
 .login__enter {
-  font-family: 'Inter';
   font-size: 24px;
   font-style: normal;
   font-weight: 900;
@@ -62,7 +62,7 @@
   width: 358px;
   height: 50px;
   border-radius: 2px;
-  margin-top: 216px;
+  margin: 216px 0 112px;
   cursor: pointer;
 }
 
