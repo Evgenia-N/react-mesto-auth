@@ -1,11 +1,11 @@
-import react from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as auth from "../auth";
+import React from "react";
 
 export default function Register() {
-  const [values, setValues] = useState({
-    email='',
-    password='',
+  const [values, setValues] = React.useState({
+    email:'',
+    password:'',
   });
 
   const navigate = useNavigate();

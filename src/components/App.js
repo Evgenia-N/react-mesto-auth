@@ -1,5 +1,5 @@
-import React, { useEffect } from 'react';
-import { Routes, Route, Navigate, useNavigate, useLocation} from 'react-router-dom';
+import React from 'react';
+import { Routes, Route, Navigate, useNavigate, useLocation } from 'react-router-dom';
 import Api from '../utils/Api';
 import { CurrentUserContext } from '../contexts/CurrentUserContext';
 import Header from './Header';
@@ -17,10 +17,10 @@ import * as auth from '../auth';
 
 export default function App() {
   const [loggedIn, setLoggedin] = React.useState(false);
-  const navigate = React.useNavigate();
-  const location = React.useLocation();
+  const navigate = useNavigate();
+  const location = useLocation();
 
-  useEffect(() => {
+  React.useEffect(() => {
     handleTokenCheck(location.pathname);
   }, []);
 
@@ -35,7 +35,7 @@ export default function App() {
       })
     }
   };
-
+/* если есть функция onLogin, то handleLogin не нужна*/
   const handleLogin = () => {
     setLoggedin(true);
   }
@@ -165,7 +165,7 @@ export default function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header />
+        <Header onLogout={handleLogout}/>
         <Routes>
           <Route 
             exact path='/' 
@@ -212,4 +212,3 @@ export default function App() {
     </CurrentUserContext.Provider>
   );
 }
-export default App;
