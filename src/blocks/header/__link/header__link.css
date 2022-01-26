@@ -8,3 +8,8 @@
   text-decoration: none;
   margin-top: 10px;
 }
+
+.header__link:hover {
+  opacity: .6;
+  transition: opacity .1s ease; 
+}
