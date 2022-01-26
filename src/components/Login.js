@@ -1,6 +1,7 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
 import * as auth from "../auth"
+import './styles/Login.css'
 
 export default function Login({onLogin}) {
   const [values, setValues] = React.useState({
@@ -40,18 +41,18 @@ export default function Login({onLogin}) {
 
   return (
     <div className="login">
-      <p className="login__welcome">Добро пожаловать!</p>
+      <span className="login__enter">Вход</span>
       <form onSubmit={handleSubmit} className="login__form">
-        <label htmlFor="username">Логин:</label>
         <input
           required
-          id="username"
-          name="username"
-          type="text"
-          value={values.username}
+          id="email"
+          name="email"
+          type="email"
+          value={values.email}
           onChange={handleChange}
+          className="login__input"
+          placeholder="Email"
         />
-        <label htmlFor="password">Пароль:</label>
         <input
           required
           id="password"
@@ -59,24 +60,15 @@ export default function Login({onLogin}) {
           type="password"
           value={values.password}
           onChange={handleChange}
+          className="login__input"
+          placeholder="Пароль"
         />
-        <div className="login__button-container">
-          <button
+        <button
             type="submit"
             onSubmit={handleSubmit}
-            className="login__link"
-          >
-            Войти
-          </button>
-        </div>
+            className="login__link">
+        </button>
       </form>
-
-      <div className="login__signup">
-        <p>Ещё не зарегистрированы?</p>
-        <Link to="/sign-up" className="signup__link">
-          Зарегистрироваться
-        </Link>
-      </div>
     </div>
   );
 }
