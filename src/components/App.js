@@ -29,10 +29,18 @@ export default function App() {
 
   const handleLogin = () => {
     setLoggedin(true);
+    if (localStorage.getItem('token')) {
+      auth.checkToken(localStorage.getItem('token')).then((res) => {
+        if(res) {
+          setUserData({email: res.data.email})
+        }
+      })
+    }
   }
 
   const handleLogout = () => {
     localStorage.removeItem('token');
+    setUserData('');
     setLoggedin(false);
     navigate('/sign-in')
   }
