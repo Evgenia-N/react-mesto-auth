@@ -28,7 +28,10 @@ export default function Register() {
     .then((res)=> {
       if (res.statusCode !== 400) {
         navigate('/sign-in')
-      }})
+      }
+      else {
+      console.log(`Произошла ошибка: ${res.status, res.statusText}`)
+    }})
     }
 
     return (

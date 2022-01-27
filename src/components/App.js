@@ -35,7 +35,8 @@ export default function App() {
       })
     }
   };
-/* если есть функция onLogin, то handleLogin не нужна*/
+
+  /* если есть функция onLogin, то handleLogin не нужна*/
   const handleLogin = () => {
     setLoggedin(true);
   }
