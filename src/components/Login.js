@@ -1,9 +1,9 @@
 import React from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import * as auth from "../auth"
 import './styles/Login.css'
 
-export default function Login({onLogin}) {
+export default function Login({handleLogin}) {
   const [values, setValues] = React.useState({
     email: '',
     password: '',
@@ -11,28 +11,28 @@ export default function Login({onLogin}) {
 
   const navigate = useNavigate();
 
-  const handleChange =(e) => {
+  const handleChange = (e) => {
     const { name, value } = e.target;
     setValues((prevState) => ({
       ...prevState,
       [name]: value,
-    }))
-  };
+    }));
+  }
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!values.email || values.password) {
+    if (!values.email || !values.password) {
       return;
     }
     auth.authorize(values.email, values.password)
-    .then((res) => {
-      if(res.user && res.jwt) {
-        setValues({
+    .then((data) => {
+      if(data.token) {
+          setValues({
           email: '',
           password: '',
         })
-        localStorage.setItem('jwt', res.jwt);
-        onLogin();
+        localStorage.setItem('token', data.token);
+        handleLogin();
         navigate('/');
       }
     })
@@ -48,7 +48,7 @@ export default function Login({onLogin}) {
           id="email"
           name="email"
           type="email"
-          value={values.email}
+          value={values.email || ''}
           onChange={handleChange}
           className="login__input"
           placeholder="Email"
@@ -58,7 +58,7 @@ export default function Login({onLogin}) {
           id="password"
           name="password"
           type="password"
-          value={values.password}
+          value={values.password || ''}
           onChange={handleChange}
           className="login__input"
           placeholder="Пароль"

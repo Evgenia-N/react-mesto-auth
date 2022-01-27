@@ -17,43 +17,41 @@ import * as auth from '../auth';
 
 export default function App() {
   const [loggedIn, setLoggedin] = React.useState(false);
+  const [userData, setUserData] = React.useState('');
   const navigate = useNavigate();
   const location = useLocation();
-
-  React.useEffect(() => {
-    handleTokenCheck(location.pathname);
-  }, []);
-
-  const handleTokenCheck = (path) => {
-    if (localStorage.getItem('jwt')) {
-      const jwt = localStorage.getItem('jwt');
-      auth.checkToken(jwt).then((res) => {
-        if(res) {
-          setLoggedin(true);
-          navigate(path);
-        }
-      })
-    }
-  };
-
-  /* если есть функция onLogin, то handleLogin не нужна*/
-  const handleLogin = () => {
-    setLoggedin(true);
-  }
-
-  const handleLogout = (evt) => {
-    evt.preventDefault();
-    localStorage.removeItem('jwt');
-    setLoggedin(false);
-    navigate('/sign-in')
-  }
-
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
   const [selectedCard, setSelectedCard] = React.useState({name: '', link: ''});
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
+
+  const handleLogin = () => {
+    setLoggedin(true);
+  }
+
+  const handleLogout = () => {
+    localStorage.removeItem('token');
+    setLoggedin(false);
+    navigate('/sign-in')
+  }
+
+  const handleTokenCheck = (path) => {
+    if (localStorage.getItem('token')) {
+      auth.checkToken(localStorage.getItem('token')).then((res) => {
+        if(res) {
+          setLoggedin(true);
+          navigate(path);
+          setUserData({email: res.data.email})
+        }
+      })
+    }
+  };
+
+  React.useEffect(() => {
+    handleTokenCheck(location.pathname);
+  }, []);
 
   React.useEffect(() => {
     Promise.all([Api.getUserInfo(), Api.getCards()])
@@ -166,7 +164,7 @@ export default function App() {
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header onLogout={handleLogout}/>
+        <Header onLogout={handleLogout} userData={userData} />
         <Routes>
           <Route 
             exact path='/' 
@@ -189,7 +187,7 @@ export default function App() {
           />
           <Route 
             path='/sign-in' 
-            element={<Login onLogin={handleLogin}/>}
+            element={<Login handleLogin={handleLogin}/>}
           />
           <Route 
             path='*' 
