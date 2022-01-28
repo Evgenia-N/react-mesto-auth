@@ -1,6 +1,5 @@
 import React from "react";
 import { useNavigate } from "react-router-dom";
-import * as auth from "../auth"
 import './styles/Login.css'
 
 export default function Login({onLogin}) {
@@ -21,22 +20,9 @@ export default function Login({onLogin}) {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    if (!values.email || !values.password) {
-      return;
-    }
-    auth.authorize(values.email, values.password)
-    .then((data) => {
-      if(data.token) {
-          setValues({
-          email: '',
-          password: '',
-        })
-        localStorage.setItem('token', data.token);
-        onLogin();
-        navigate('/');
-      }
-    })
-    .catch((err) => console.log(`${err}`));
+    const email=values.email;
+    const password=values.password;
+    onLogin(email, password);
   };
 
   return (

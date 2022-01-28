@@ -40,25 +40,34 @@ export default function App() {
           navigate('/sign-in');
           setisInfoTooltipOpen(false)}, 3000);
       }
-      else {
-        setisInfoTooltipOpen(true)
-        setisSuccessful(false);
-      }
     })
     .catch((err) => {
+      setisInfoTooltipOpen(true)
+      setisSuccessful(false);
       console.log(`${err}`)
     })
   }
   
-  const handleLogin = () => {
-    setLoggedin(true);
-    if (localStorage.getItem('token')) {
-      auth.checkToken(localStorage.getItem('token')).then((res) => {
-        if(res) {
-          setUserData({email: res.data.email})
+  const onLogin = (email, password) => {
+    auth.authorize(email, password)
+    .then((data) => {
+      if (!email || !password) {
+        return;
+      }
+      localStorage.setItem("token", data.token);
+      setLoggedin(true);
+      auth.checkToken(localStorage.getItem("token")).then((res) => {
+        if (res) {
+          setUserData({ email: res.data.email });
         }
-      })
-    }
+        navigate("/");
+      });
+    })
+    .catch((err) => {
+      setisInfoTooltipOpen(true)
+      setisSuccessful(false);
+      console.log(`${err}`)
+    })
   }
 
   const handleLogout = () => {
@@ -77,6 +86,9 @@ export default function App() {
           setUserData({email: res.data.email})
         }
       })
+      .catch((err) => { 
+        console.log(`${err}`) 
+      }) 
     }
   };
 
@@ -219,7 +231,7 @@ export default function App() {
           />
           <Route 
             path='/sign-in' 
-            element={<Login onLogin={handleLogin}/>}
+            element={<Login onLogin={onLogin}/>}
           />
           <Route 
             path='*' 
