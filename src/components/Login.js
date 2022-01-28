@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import * as auth from "../auth"
 import './styles/Login.css'
 
-export default function Login({handleLogin}) {
+export default function Login({onLogin}) {
   const [values, setValues] = React.useState({
     email: '',
     password: '',
@@ -32,7 +32,7 @@ export default function Login({handleLogin}) {
           password: '',
         })
         localStorage.setItem('token', data.token);
-        handleLogin();
+        onLogin();
         navigate('/');
       }
     })

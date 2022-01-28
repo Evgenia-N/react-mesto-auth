@@ -23,10 +23,33 @@ export default function App() {
   const [isEditProfilePopupOpen, setIsEditProfilePopupOpen] = React.useState(false);
   const [isEditAvatarPopupOpen, setIsEditAvatarPopupOpen] = React.useState(false);
   const [isAddPlacePopupOpen, setIsAddPlacePopupOpen] = React.useState(false);
+  const [isInfoTooltipOpen, setisInfoTooltipOpen] = React.useState(false);
+  const [isSuccessful, setisSuccessful] = React.useState('');
   const [selectedCard, setSelectedCard] = React.useState({name: '', link: ''});
   const [currentUser, setCurrentUser] = React.useState({});
   const [cards, setCards] = React.useState([]);
 
+  const onRegister = (email, password) => {
+    auth.register(email, password)
+    .then((res)=> {
+      console.log(res)
+      if (res.data) {
+        setisInfoTooltipOpen(true)
+        setisSuccessful(true);
+        setTimeout(() => {
+          navigate('/sign-in');
+          setisInfoTooltipOpen(false)}, 3000);
+      }
+      else {
+        setisInfoTooltipOpen(true)
+        setisSuccessful(false);
+      }
+    })
+    .catch((err) => {
+      console.log(`${err}`)
+    })
+  }
+  
   const handleLogin = () => {
     setLoggedin(true);
     if (localStorage.getItem('token')) {
@@ -166,13 +189,14 @@ export default function App() {
     setIsEditProfilePopupOpen(false);
     setIsEditAvatarPopupOpen(false);
     setIsAddPlacePopupOpen(false);
+    setisInfoTooltipOpen(false);
     setSelectedCard({name: '', link: ''});
   }
 
   return (
     <CurrentUserContext.Provider value={currentUser}>
       <div className="page">
-        <Header onLogout={handleLogout} userData={userData} />
+        <Header onSignOut={handleLogout} userData={userData} />
         <Routes>
           <Route 
             exact path='/' 
@@ -191,11 +215,11 @@ export default function App() {
           />
           <Route 
             path='/sign-up' 
-            element={<Register/>}
+            element={<Register onRegister={onRegister}/>}
           />
           <Route 
             path='/sign-in' 
-            element={<Login handleLogin={handleLogin}/>}
+            element={<Login onLogin={handleLogin}/>}
           />
           <Route 
             path='*' 
@@ -203,6 +227,7 @@ export default function App() {
           />
         </Routes>
         <Footer />
+        <InfoTooltip isOpen={isInfoTooltipOpen} isSuccessful={isSuccessful} onClose={closeAllPopups}/>
         <EditProfilePopup
           isOpen={isEditProfilePopupOpen}
           onClose={closeAllPopups}

@@ -1,15 +1,12 @@
-import { Link, useNavigate } from "react-router-dom";
-import * as auth from "../auth";
 import React from "react";
+import { Link } from "react-router-dom";
 import "./styles/Register.css"
 
-export default function Register() {
+export default function Register({onRegister}) {
   const [values, setValues] = React.useState({
     email:'',
     password:'',
   });
-
-  const navigate = useNavigate();
 
   const handleChange = (e) => {
     const {name, value} = e.target;
@@ -21,17 +18,9 @@ export default function Register() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    auth.register(
-      values.email,
-      values.password
-    )
-    .then((res)=> {
-      if (res.statusCode !== 400) {
-        navigate('/sign-in')
-      }
-      else {
-      console.log(`Произошла ошибка: ${res.status, res.statusText}`)
-    }})
+    const email=values.email;
+    const password=values.password;
+    onRegister(email, password);
     }
 
     return (

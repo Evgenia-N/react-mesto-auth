@@ -12,9 +12,26 @@ export default function EditAvatarPopup({ isOpen, onClose, onUpdateAvatar}) {
   }
 
   return (
-    <PopupWithForm name='edit-profile-pic' title='Обновить аватар' buttonText='Сохранить' isOpen={isOpen} onClose={onClose} onSubmit={handleSubmit}>
-      <input className="popup__input popup__input_type_pic" type="url" id="pic-input" name="avatar" placeholder="Ссылка на картинку" ref={avatarRef} required />
-      <span className="popup__error pic-input-error" id="pic-input-error"></span>
+    <PopupWithForm 
+      name='edit-profile-pic' 
+      title='Обновить аватар' 
+      buttonText='Сохранить' 
+      isOpen={isOpen} 
+      onClose={onClose} 
+      onSubmit={handleSubmit}
+    >
+      <input 
+        className="popup__input popup__input_type_pic" 
+        type="url" id="pic-input" 
+        name="avatar" 
+        placeholder="Ссылка на картинку" 
+        ref={avatarRef} 
+        required 
+      />
+      <span 
+        className="popup__error pic-input-error" 
+        id="pic-input-error">
+      </span>
     </PopupWithForm>
   );
 }
