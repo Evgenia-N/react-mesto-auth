@@ -96,3 +96,17 @@
   opacity: .85;
   transition: opacity .1s ease;
 }
+
+@media (max-width: 400px) {
+  .register__enter {
+    font-size: 20px;
+  }
+  .register__form {
+    width: 260px;
+  }
+  .register__link {
+    width: 260px;
+    height: 46px;
+    margin-top: 173px;
+  }
+}

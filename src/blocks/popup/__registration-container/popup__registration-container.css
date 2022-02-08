@@ -7,4 +7,12 @@
   background-color: #fff;
   color: #000;
   margin: auto;
+  border-radius: 10px;
+}
+
+@media (max-width:400px) {
+  .popup__registration-container {
+    width: 280px;
+    height: 308px;
+  }
 }

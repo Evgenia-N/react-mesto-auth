@@ -70,3 +70,17 @@
   opacity: .85;
   transition: opacity .1s ease;
 }
+
+@media (max-width: 400px) {
+  .login__enter {
+    font-size: 20px;
+  }
+  .login__form {
+    width: 260px;
+  }
+  .login__link {
+    width: 260px;
+    height: 46px;
+    margin-top: 173px;
+  }
+}
