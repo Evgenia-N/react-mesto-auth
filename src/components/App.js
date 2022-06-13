@@ -32,7 +32,7 @@ export default function App() {
   const onRegister = (email, password) => {
     auth.register(email, password)
     .then((res)=> {
-      console.log(res)
+    //  console.log(res)
       if (res.data) {
         setisInfoTooltipOpen(true)
         setisSuccessful(true);
@@ -54,9 +54,9 @@ export default function App() {
       if (!email || !password) {
         return;
       }
-      localStorage.setItem("token", data.token);
+      localStorage.setItem('token', data.token);
       setLoggedin(true);
-      auth.checkToken(localStorage.getItem("token")).then((res) => {
+      auth.checkToken(localStorage.getItem('token')).then((res) => {
         if (res) {
           setUserData({ email: res.data.email });
         }
